@@ -245,3 +245,53 @@ select MaNv, COUNT(MaMb)
 from ChungNhan
 group by MaNv
 having count(MaMb)=3
+
+
+create procedure tongso_chuyenbay14
+	(@manv varchar(10))
+as
+	select count(distinct MaCb)
+	from ChuyenBay, NhanVien
+		 inner join ChungNhan on ChungNhan.MaNv = NhanVien.MaNv
+		 inner join MayBay on MayBay.MaMb = ChungNhan.MaMb
+	
+	-- where ChungNhan.MaMb = MayBay.MaMb and ChuyenBay.DoDai <= MayBay.TamBay and ChungNhan.MaNv = @manv
+	where ChuyenBay.DoDai <= MayBay.TamBay and ChungNhan.MaNv = @manv
+
+tongso_chuyenbay14 '011564812'
+
+create proc luong_caonhat
+as begin
+	declare @maxLuong float
+	set @maxLuong = (SELECT Max(Luong) from NhanVien)
+
+	select Ten
+	from NhanVien
+	where Luong = @maxLuong
+end
+
+luong_caonhat
+
+-- câu 53 tìm phi công có thể lái đc tất cả các loại máy bay boing
+
+select count(NhanVien.Ten) from ChuyenBay, NhanVien
+	inner join ChungNhan on ChungNhan.MaNv = NhanVien.MaNv
+	inner join MayBay on MayBay.MaMb = ChungNhan.MaMb
+where MayBay.Hieu like 'Boing%' and MayBay.TamBay > ChuyenBay.DoDai
+
+
+create function tongso_cb (@mnv nvarchar(50))
+	returns int
+as	
+Begin
+	declare @tongso_cb int
+	select @tongso_cb=count(ChuyenBay.MaCb) from ChuyenBay, NhanVien
+		inner join ChungNhan on ChungNhan.MaNv = NhanVien.MaNv
+		inner join MayBay on MayBay.MaMb = ChungNhan.MaMb
+	where ChuyenBay.DoDai < MayBay.TamBay and NhanVien.MaNv = @mnv
+	return @tongso_cb
+end
+
+select * from ChungNhan
+
+tongso_cb('567354612')

@@ -1,0 +1,11 @@
+View trong SQL
+
+- Lưu ý:
++ Nếu không chỉ định danh sách tên cột cho khung nhìn, tên các cột chính là tiêu đề các cột trong kết quả câu select
++ Tên các cột trong view được chỉ định thì p có cùng số lượng với số lượng cột trong kết quả của câu SELECT
++ p đặt tên cho cột của View(ds-tên-cột) trong trường hợp sau:
+. cột được phát sinh
+
+
+* Xoá View:
+- Lưu ý: Khi 1 view bị xoá thì các quyền được cấp phát cho người dùng trên View đó cũng sẽ bị xoá. Nên khi tạo lại View thì phải cấp phát lại quyền cho người sử dụng
